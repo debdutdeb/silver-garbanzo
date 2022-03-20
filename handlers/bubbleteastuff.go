@@ -11,14 +11,10 @@ func (m *Background) View() string {
 
 	for num, file := range m.CurrDirs {
 		var choice string = " "
-		var selected string = " "
 		if m.cursor == num {
-			choice = "?"
+			choice = "*"
 		}
-		if m.selectedIndex == num {
-			selected = "*"
-		}
-		s += fmt.Sprintf("%s [%s] %s\n", choice, selected, file)
+		s += fmt.Sprintf("[%s] %s\n", choice, file)
 	}
 
 	s += "\npress q to quit\n"
@@ -37,7 +33,7 @@ func (m *Background) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			case "enter", " ":
 				{
-					m.selectedIndex = m.cursor
+					m.selection = m.cursor
 				}
 			case "j":
 				{
@@ -51,6 +47,10 @@ func (m *Background) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
                         m.cursor--
                     }
 				}
+            case "l":
+                {
+                    m.MoveTo(m.CurrDirs[m.cursor])
+                }
 			}
 		}
 	}

@@ -17,7 +17,7 @@ type Background struct {
 	Pos *stack.Stack
 
 	cursor        int
-	selectedIndex int
+	selection int
 }
 
 func getDirs(dir string) ([]string, error) {
@@ -32,6 +32,15 @@ func getDirs(dir string) ([]string, error) {
 	}
 
 	return dirs, nil
+}
+
+func (b *Background) MoveTo(dirname string) {
+    var err error
+    b.cursor = 0
+    b.Cwd = dirname
+    b.CurrDirs, err = getDirs(dirname)
+    if err != nil {}
+    b.Pos.Push(dirname)
 }
 
 func New() (*Background, error) {
@@ -52,6 +61,6 @@ func New() (*Background, error) {
 		CurrDirs:      currdirs,
 		Pos:           &stack.Stack{},
 		cursor:        0,
-		selectedIndex: -1,
+		selection: -1,
 	}, nil
 }
