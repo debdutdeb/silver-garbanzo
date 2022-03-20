@@ -9,14 +9,14 @@ import (
 )
 
 type Background struct {
+	Cwd         string
 	CurrDirs    []string
 	ForwardDirs []string
 
 	// stores Background vars
 	Pos *stack.Stack
 
-	cursor    int
-	selection int
+	cursor int
 }
 
 func getDirs(dir string) ([]string, error) {
@@ -26,8 +26,13 @@ func getDirs(dir string) ([]string, error) {
 	}
 
 	var dirs []string
+	var name string
 	for _, d := range _dirs {
-		dirs = append(dirs, d.Name())
+		name = d.Name()
+		if d.IsDir() {
+			name += "/"
+		}
+		dirs = append(dirs, name)
 	}
 
 	return dirs, nil
@@ -60,6 +65,7 @@ func New() (*Background, error) {
 	}
 
 	return &Background{
+		Cwd:         d,
 		ForwardDirs: nil,
 		CurrDirs:    append([]string{".", ".."}, currdirs...),
 		Pos:         &stack.Stack{},

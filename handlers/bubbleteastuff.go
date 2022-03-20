@@ -12,9 +12,9 @@ func (m *Background) View() string {
 	for num, file := range m.CurrDirs {
 		var choice string = " "
 		if m.cursor == num {
-			choice = "*"
+			choice = "=>"
 		}
-		s += fmt.Sprintf("[%s] %s\n", choice, file)
+		s += fmt.Sprintf("%s [ ] %s\n", choice, file)
 	}
 
 	s += "\npress q to quit\n"
@@ -31,24 +31,24 @@ func (m *Background) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				{
 					return m, tea.Quit
 				}
-			case "enter", " ":
-				{
-					m.selection = m.cursor
-				}
-			case "j":
+			case "j", "down":
 				{
 					if m.cursor < len(m.CurrDirs) {
 						m.cursor++
 					}
 				}
-			case "k":
+			case "k", "up":
 				{
 					if m.cursor > 0 {
 						m.cursor--
 					}
 				}
-			case "l":
+			case "enter", " ", "l":
 				{
+					if m.Cwd == ".." {
+                        // go back a directory but what if I didn't start there?
+                        // can't use the stack then
+					}
 					m.MoveTo(m.CurrDirs[m.cursor])
 				}
 			case "b":
