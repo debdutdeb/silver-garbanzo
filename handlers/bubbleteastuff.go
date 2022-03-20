@@ -53,9 +53,10 @@ func (m *Background) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			case "b":
 				{
-                    // restore last position
-                    b, _ := m.Pos.Pop().(Background)
-                    m = &b
+					// restore last position
+					if b, ok := m.Pos.Pop().(Background); ok {
+						m = &b
+					}
 				}
 			}
 		}

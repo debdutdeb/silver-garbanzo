@@ -43,6 +43,7 @@ func (b *Background) MoveTo(dirname string) {
 	b.Pos.Push(*b) // this also stores the cursor which is just awesome
 	b.cursor = 0
 	b.CurrDirs, err = getDirs(dirname)
+	b.CurrDirs = append([]string{".", ".."}, b.CurrDirs...)
 	if err != nil {
 	}
 }
@@ -60,7 +61,7 @@ func New() (*Background, error) {
 
 	return &Background{
 		ForwardDirs: nil,
-		CurrDirs:    currdirs,
+		CurrDirs:    append([]string{".", ".."}, currdirs...),
 		Pos:         &stack.Stack{},
 		cursor:      0,
 	}, nil

@@ -10,6 +10,12 @@ import (
 
 
 func main() {
+    l, err := tea.LogToFile("silver.log", "debug")
+    if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+    }
+    defer l.Close()
+
     h, err := handlers.New()
     if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
