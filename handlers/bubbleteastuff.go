@@ -38,19 +38,25 @@ func (m *Background) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			case "j":
 				{
 					if m.cursor < len(m.CurrDirs) {
-                        m.cursor++
-                    }
+						m.cursor++
+					}
 				}
 			case "k":
 				{
-                    if m.cursor > 0 {
-                        m.cursor--
-                    }
+					if m.cursor > 0 {
+						m.cursor--
+					}
 				}
-            case "l":
-                {
-                    m.MoveTo(m.CurrDirs[m.cursor])
-                }
+			case "l":
+				{
+					m.MoveTo(m.CurrDirs[m.cursor])
+				}
+			case "b":
+				{
+                    // restore last position
+                    b, _ := m.Pos.Pop().(Background)
+                    m = &b
+				}
 			}
 		}
 	}

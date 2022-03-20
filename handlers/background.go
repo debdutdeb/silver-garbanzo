@@ -9,14 +9,13 @@ import (
 )
 
 type Background struct {
-	Cwd         string
 	CurrDirs    []string
 	ForwardDirs []string
-	BackDirs    []string
 
+	// stores Background vars
 	Pos *stack.Stack
 
-	cursor        int
+	cursor    int
 	selection int
 }
 
@@ -35,12 +34,17 @@ func getDirs(dir string) ([]string, error) {
 }
 
 func (b *Background) MoveTo(dirname string) {
-    var err error
-    b.cursor = 0
-    b.Cwd = dirname
-    b.CurrDirs, err = getDirs(dirname)
-    if err != nil {}
-    b.Pos.Push(dirname)
+	var err error
+	/**
+	 * push current Background to Pos
+	 * set current cursor to  zero
+	 * set current directory list based on passed dirname
+	 */
+	b.Pos.Push(*b) // this also stores the cursor which is just awesome
+	b.cursor = 0
+	b.CurrDirs, err = getDirs(dirname)
+	if err != nil {
+	}
 }
 
 func New() (*Background, error) {
@@ -55,12 +59,9 @@ func New() (*Background, error) {
 	}
 
 	return &Background{
-		Cwd:           d,
-		BackDirs:      nil,
-		ForwardDirs:   nil,
-		CurrDirs:      currdirs,
-		Pos:           &stack.Stack{},
-		cursor:        0,
-		selection: -1,
+		ForwardDirs: nil,
+		CurrDirs:    currdirs,
+		Pos:         &stack.Stack{},
+		cursor:      0,
 	}, nil
 }
